@@ -1,0 +1,14 @@
+---
+server:
+  port: 8080
+
+  httpProxy:
+    enabled: true
+    port: 8443
+
+db:
+  host: localhost
+  port: 5432
+  uesrname: chorerewards
+  password: supersecretpassword
+  name: chorerewards
