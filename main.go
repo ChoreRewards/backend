@@ -16,6 +16,7 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	chorerewardsv1alpha1 "github.com/chorerewards/api/chorerewards/v1alpha1"
+	"github.com/chorerewards/backend/internal/auth"
 	"github.com/chorerewards/backend/internal/server"
 )
 
@@ -36,7 +37,7 @@ func main() {
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
 
-	// Serer defaults
+	// Server defaults
 	viper.SetDefault("server.port", 8080)
 	viper.SetDefault("server.httpProxy.enabled", false)
 	viper.SetDefault("server.httpProxy.port", 8443)
@@ -47,6 +48,9 @@ func main() {
 	viper.SetDefault("db.username", "chorerewards")
 	viper.SetDefault("db.password", "")
 	viper.SetDefault("db.name", "chorerewards")
+
+	// Auth defaults
+	viper.SetDefault("auth.key", "secretkey")
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -63,6 +67,8 @@ func main() {
 		dbUsername = viper.GetString("db.username")
 		dbPassword = viper.GetString("db.password")
 		dbName     = viper.GetString("db.name")
+
+		authKey = viper.GetString("auth.key")
 	)
 
 	log.WithFields(log.Fields{
@@ -75,13 +81,12 @@ func main() {
 		"Database Username":  dbUsername,
 	}).Info("Config Initialised")
 
-	server, err := server.New(server.Config{
-		DBHost:     dbHost,
-		DBPort:     dbPort,
-		DBUsername: dbUsername,
-		DBPassword: dbPassword,
-		DBName:     dbName,
-	})
+	tokenManager := auth.NewTokenManager(authKey)
+
+	server, err := server.New(
+		server.Config{DBHost: dbHost, DBPort: dbPort, DBUsername: dbUsername, DBPassword: dbPassword, DBName: dbName},
+		tokenManager,
+	)
 	if err != nil {
 		log.Fatalf("Unable to initialise new Server: %+v", err)
 	}

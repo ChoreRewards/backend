@@ -12,3 +12,6 @@ db:
   uesrname: chorerewards
   password: supersecretpassword
   name: chorerewards
+
+auth:
+  key: averylongsecretthatissecure
