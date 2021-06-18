@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/chorerewards/api v0.0.9
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.4.0
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/lib/pq v1.4.0 // indirect

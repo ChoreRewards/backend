@@ -9,9 +9,14 @@ import (
 	"github.com/pkg/errors"
 )
 
+type TokenManager interface {
+	CreateToken(username string) (string, error)
+}
+
 // Server is the implementation of the chorerewardsv1alpha1.ChoreRewardsServiceServer
 type Server struct {
-	dbManager *db.Manager
+	dbManager    *db.Manager
+	tokenManager TokenManager
 }
 
 type Config struct {
@@ -22,7 +27,7 @@ type Config struct {
 	DBName     string
 }
 
-func New(c Config) (*Server, error) {
+func New(c Config, tokenManager TokenManager) (*Server, error) {
 	dbManager, err := db.New(db.Config{
 		Host:     c.DBHost,
 		Port:     c.DBPort,
@@ -35,7 +40,8 @@ func New(c Config) (*Server, error) {
 	}
 
 	return &Server{
-		dbManager: dbManager,
+		dbManager:    dbManager,
+		tokenManager: tokenManager,
 	}, nil
 }
 
@@ -136,5 +142,10 @@ func (s *Server) Login(ctx context.Context, req *chorerewardsv1alpha1.LoginReque
 		return nil, errors.New("Authentication failed")
 	}
 
-	return &chorerewardsv1alpha1.LoginResponse{}, nil
+	token, err := s.tokenManager.CreateToken(req.GetUsername())
+	if err != nil {
+		return nil, errors.Wrap(err, "Unable to create Token")
+	}
+
+	return &chorerewardsv1alpha1.LoginResponse{Token: token}, nil
 }
