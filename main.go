@@ -91,7 +91,9 @@ func main() {
 		log.Fatalf("Unable to initialise new Server: %+v", err)
 	}
 
-	gServer := grpc.NewServer()
+	gServer := grpc.NewServer(
+		grpc.UnaryInterceptor(tokenManager.ValidateAuthInterceptor),
+	)
 
 	chorerewardsv1alpha1.RegisterChoreRewardsServiceServer(gServer, server)
 
