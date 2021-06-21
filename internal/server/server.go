@@ -45,8 +45,29 @@ func New(c Config, tokenManager TokenManager) (*Server, error) {
 	}, nil
 }
 
-func (s *Server) ListUsers(context.Context, *chorerewardsv1alpha1.ListUsersRequest) (*chorerewardsv1alpha1.ListUsersResponse, error) {
-	return nil, nil
+func (s *Server) ListUsers(ctx context.Context, req *chorerewardsv1alpha1.ListUsersRequest) (*chorerewardsv1alpha1.ListUsersResponse, error) {
+	users, err := s.dbManager.ListUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	u := make([]*chorerewardsv1alpha1.User, len(users))
+	for i, usr := range users {
+		u[i] = &chorerewardsv1alpha1.User{
+			Id:       usr.ID,
+			Username: usr.Username,
+			Email:    usr.Email,
+			IsAdmin:  usr.IsAdmin,
+			IsParent: usr.IsParent,
+			Avatar:   usr.Avatar,
+			Points:   usr.Points,
+			IsActive: usr.IsActive,
+		}
+	}
+
+	return &chorerewardsv1alpha1.ListUsersResponse{
+		Users: u,
+	}, nil
 }
 
 func (s *Server) ListCategories(context.Context, *chorerewardsv1alpha1.ListCategoriesRequest) (*chorerewardsv1alpha1.ListCategoriesResponse, error) {
