@@ -95,3 +95,33 @@ func (d *Manager) GetUser(ctx context.Context, username string) (User, error) {
 
 	return u, nil
 }
+
+func (d *Manager) ListUsers(ctx context.Context) ([]User, error) {
+	users := make([]User, 0)
+
+	rows, err := d.pool.Query(ctx, "Select id, username, email, is_admin, is_parent, avatar, points, is_active FROM users")
+	if err != nil {
+		return users, errors.Wrap(err, "unable to get users")
+	}
+
+	rowCount := 0
+	for rows.Next() {
+		u := User{}
+
+		if err := rows.Scan(&u.ID, &u.Username, &u.Email, &u.IsAdmin, &u.IsParent, &u.Avatar, &u.Points, &u.IsActive); err != nil {
+			return nil, errors.Wrap(err, "unable to scan row")
+		}
+
+		users = append(users, u)
+
+		rowCount++
+	}
+
+	if rows.Err() != nil {
+		return nil, errors.Wrap(rows.Err(), "erroring reading rows")
+	}
+
+	logrus.WithFields(logrus.Fields{"rowCount": rowCount}).Info("Users queried successfully")
+
+	return users, nil
+}

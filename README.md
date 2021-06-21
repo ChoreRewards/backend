@@ -38,6 +38,12 @@ grpcurl -protoset <(cd ../api; ../api/.cache/Darwin/x86_64/bin/buf image build -
 grpcurl -protoset <(cd ../api; ../api/.cache/Darwin/x86_64/bin/buf image build -o -) -plaintext -d '{"username": "testUser", "pin": 1234 }' localhost:8080 chorerewards.v1alpha1.ChoreRewardsService/Login
 ```
 
+## List Users
+
+```
+grpcurl -protoset <(cd ../api; ../api/.cache/Darwin/x86_64/bin/buf image build -o -) -plaintext -rpc-header Authorization:"Bearer <token>" localhost:8080 chorerewards.v1alpha1.ChoreRewardsService/ListUsers
+```
+
 # HTTP requests
 
 ## Create a user
@@ -54,6 +60,12 @@ curl -H "Content-Type: application/json" -X POST localhost:8443/v1alpha1/login -
 
 // With Pin
 curl -H "Content-Type: application/json" -X POST localhost:8443/v1alpha1/login -d '{"username": "testUser", "pin": 1234}'
+```
+
+## List Users
+
+```
+curl -H "Content-Type: application/json" -H "Authorization: Bearer <token>" localhost:8443/v1alpha1/users
 ```
 
 # ToDo
