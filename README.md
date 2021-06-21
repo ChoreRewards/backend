@@ -55,3 +55,7 @@ curl -H "Content-Type: application/json" -X POST localhost:8443/v1alpha1/login -
 // With Pin
 curl -H "Content-Type: application/json" -X POST localhost:8443/v1alpha1/login -d '{"username": "testUser", "pin": 1234}'
 ```
+
+# ToDo
+
+- [ ] Implement JWT refresh logic
