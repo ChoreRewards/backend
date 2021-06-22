@@ -15,9 +15,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	chorerewardsv1alpha1 "github.com/chorerewards/api/chorerewards/v1alpha1"
 	"github.com/chorerewards/backend/internal/auth"
 	"github.com/chorerewards/backend/internal/server"
+	chorerewardsv1alpha1 "github.com/chorerewards/proto/chorerewards/v1alpha1"
 )
 
 func init() {

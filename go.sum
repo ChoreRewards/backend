@@ -68,10 +68,8 @@ github.com/cenkalti/backoff v2.2.1+incompatible/go.mod h1:90ReRw6GdpyfrHakVjL/QH
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
-github.com/chorerewards/api v0.0.9 h1:AwHDeV7XhKrst0QtgK62nvcOIxZcsomWTOi3w1+B31c=
-github.com/chorerewards/api v0.0.9/go.mod h1:kMNwHeMTFFdMH3aQAJRafubRBAW0sMT2HYhlvAK4ors=
-github.com/chorerewards/api v0.0.10 h1:bpF+Pj1kmrpUTheTbN0XENphNjAUc0Q6khrx8CjD9eM=
-github.com/chorerewards/api v0.0.10/go.mod h1:kMNwHeMTFFdMH3aQAJRafubRBAW0sMT2HYhlvAK4ors=
+github.com/chorerewards/proto v0.0.12 h1:fiX3Kuu2wmD2h9r9/ZCoP5gh8wDZgPjKr0WFbUZfjrI=
+github.com/chorerewards/proto v0.0.12/go.mod h1:KeAEuA0zt5eH0CriIozp3Cl/NhpcIyj336YTfK6NTOE=
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=
 github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e/go.mod h1:nSuG5e5PlCu98SY8svDHJxuZscDgtXS6KTTbou5AhLI=
 github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMnBNeIyt5eFwwo7qiLfzFZmjNmxjkiQlU=
