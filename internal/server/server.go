@@ -45,41 +45,142 @@ func New(c Config, tokenManager TokenManager) (*Server, error) {
 	}, nil
 }
 
-func (s *Server) ListUsers(ctx context.Context, req *chorerewardsv1alpha1.ListUsersRequest) (*chorerewardsv1alpha1.ListUsersResponse, error) {
-	users, err := s.dbManager.ListUsers(ctx)
+func (s *Server) CreateCategory(ctx context.Context, req *chorerewardsv1alpha1.CreateCategoryRequest) (*chorerewardsv1alpha1.CreateCategoryResponse, error) {
+	category, err := s.dbManager.CreateCategory(ctx, db.Category{
+		Color:       req.GetCategory().GetColor(),
+		Name:        req.GetCategory().GetName(),
+		Description: req.GetCategory().GetDescription(),
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	u := make([]*chorerewardsv1alpha1.User, len(users))
-	for i, usr := range users {
-		u[i] = &chorerewardsv1alpha1.User{
-			Id:       usr.ID,
-			Username: usr.Username,
-			Email:    usr.Email,
-			IsAdmin:  usr.IsAdmin,
-			IsParent: usr.IsParent,
-			Avatar:   usr.Avatar,
-			Points:   usr.Points,
-			IsActive: usr.IsActive,
-		}
-	}
-
-	return &chorerewardsv1alpha1.ListUsersResponse{
-		Users: u,
+	return &chorerewardsv1alpha1.CreateCategoryResponse{
+		Category: &chorerewardsv1alpha1.Category{
+			Id:          category.ID,
+			Name:        category.Name,
+			Description: category.Description,
+			Color:       category.Color,
+		},
 	}, nil
 }
 
-func (s *Server) ListCategories(context.Context, *chorerewardsv1alpha1.ListCategoriesRequest) (*chorerewardsv1alpha1.ListCategoriesResponse, error) {
-	return nil, nil
+func (s *Server) ListCategories(ctx context.Context, req *chorerewardsv1alpha1.ListCategoriesRequest) (*chorerewardsv1alpha1.ListCategoriesResponse, error) {
+	categories, err := s.dbManager.ListCategories(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	c := make([]*chorerewardsv1alpha1.Category, len(categories))
+	for i, category := range categories {
+		c[i] = &chorerewardsv1alpha1.Category{
+			Id:          category.ID,
+			Name:        category.Name,
+			Description: category.Description,
+			Color:       category.Color,
+		}
+	}
+
+	return &chorerewardsv1alpha1.ListCategoriesResponse{
+		Categories: c,
+	}, nil
 }
 
-func (s *Server) ListTasks(context.Context, *chorerewardsv1alpha1.ListTasksRequest) (*chorerewardsv1alpha1.ListTasksResponse, error) {
-	return nil, nil
+func (s *Server) CreateTask(ctx context.Context, req *chorerewardsv1alpha1.CreateTaskRequest) (*chorerewardsv1alpha1.CreateTaskResponse, error) {
+	task, err := s.dbManager.CreateTask(ctx, db.Task{
+		CategoryID:   req.GetTask().GetCategoryId(),
+		AssigneeID:   req.GetTask().GetAssigneeId(),
+		Name:         req.GetTask().GetName(),
+		Description:  req.GetTask().GetDescription(),
+		Points:       req.GetTask().GetPoints(),
+		IsRepeatable: req.GetTask().GetIsRepeatable(),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &chorerewardsv1alpha1.CreateTaskResponse{
+		Task: &chorerewardsv1alpha1.Task{
+			Id:           task.ID,
+			CategoryId:   task.CategoryID,
+			AssigneeId:   task.AssigneeID,
+			Name:         task.Name,
+			Description:  task.Description,
+			Points:       task.Points,
+			IsRepeatable: task.IsRepeatable,
+		},
+	}, nil
 }
 
-func (s *Server) ListTasksFeed(context.Context, *chorerewardsv1alpha1.ListTasksFeedRequest) (*chorerewardsv1alpha1.ListTasksFeedResponse, error) {
-	return nil, nil
+func (s *Server) ListTasks(ctx context.Context, req *chorerewardsv1alpha1.ListTasksRequest) (*chorerewardsv1alpha1.ListTasksResponse, error) {
+	tasks, err := s.dbManager.ListTasks(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	t := make([]*chorerewardsv1alpha1.Task, len(tasks))
+	for i, task := range tasks {
+		t[i] = &chorerewardsv1alpha1.Task{
+			Id:           task.ID,
+			CategoryId:   task.CategoryID,
+			AssigneeId:   task.AssigneeID,
+			Name:         task.Name,
+			Description:  task.Description,
+			Points:       task.Points,
+			IsRepeatable: task.IsRepeatable,
+		}
+	}
+
+	return &chorerewardsv1alpha1.ListTasksResponse{
+		Tasks: t,
+	}, nil
+}
+
+func (s *Server) AddTaskToFeed(ctx context.Context, req *chorerewardsv1alpha1.AddTaskToFeedRequest) (*chorerewardsv1alpha1.AddTaskToFeedResponse, error) {
+	taskFeed, err := s.dbManager.CreateTaskFeed(ctx, db.TaskFeed{
+		AssigneeID: req.GetTaskFeed().GetAssigneeId(),
+		TaskID:     req.GetTaskFeed().GetTaskId(),
+		IsComplete: req.GetTaskFeed().GetIsComplete(),
+		IsApproved: req.GetTaskFeed().GetIsApproved(),
+		Points:     req.GetTaskFeed().GetPoints(),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &chorerewardsv1alpha1.AddTaskToFeedResponse{
+		TaskFeed: &chorerewardsv1alpha1.TaskFeed{
+			Id:         taskFeed.ID,
+			TaskId:     taskFeed.TaskID,
+			IsComplete: taskFeed.IsComplete,
+			IsApproved: taskFeed.IsApproved,
+			Points:     taskFeed.Points,
+			AssigneeId: taskFeed.AssigneeID,
+		},
+	}, nil
+}
+
+func (s *Server) ListTasksFeed(ctx context.Context, req *chorerewardsv1alpha1.ListTasksFeedRequest) (*chorerewardsv1alpha1.ListTasksFeedResponse, error) {
+	tasksFeed, err := s.dbManager.ListTasksFeed(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	tf := make([]*chorerewardsv1alpha1.TaskFeed, len(tasksFeed))
+	for i, tfeed := range tasksFeed {
+		tf[i] = &chorerewardsv1alpha1.TaskFeed{
+			Id:         tfeed.ID,
+			TaskId:     tfeed.TaskID,
+			IsComplete: tfeed.IsComplete,
+			IsApproved: tfeed.IsApproved,
+			Points:     tfeed.Points,
+			AssigneeId: tfeed.AssigneeID,
+		}
+	}
+
+	return &chorerewardsv1alpha1.ListTasksFeedResponse{
+		TaskFeed: tf,
+	}, nil
 }
 
 func (s *Server) CreateUser(ctx context.Context, req *chorerewardsv1alpha1.CreateUserRequest) (*chorerewardsv1alpha1.CreateUserResponse, error) {
@@ -121,16 +222,29 @@ func (s *Server) CreateUser(ctx context.Context, req *chorerewardsv1alpha1.Creat
 	}, nil
 }
 
-func (s *Server) CreateCategory(context.Context, *chorerewardsv1alpha1.CreateCategoryRequest) (*chorerewardsv1alpha1.CreateCategoryResponse, error) {
-	return nil, nil
-}
+func (s *Server) ListUsers(ctx context.Context, req *chorerewardsv1alpha1.ListUsersRequest) (*chorerewardsv1alpha1.ListUsersResponse, error) {
+	users, err := s.dbManager.ListUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-func (s *Server) CreateTask(context.Context, *chorerewardsv1alpha1.CreateTaskRequest) (*chorerewardsv1alpha1.CreateTaskResponse, error) {
-	return nil, nil
-}
+	u := make([]*chorerewardsv1alpha1.User, len(users))
+	for i, usr := range users {
+		u[i] = &chorerewardsv1alpha1.User{
+			Id:       usr.ID,
+			Username: usr.Username,
+			Email:    usr.Email,
+			IsAdmin:  usr.IsAdmin,
+			IsParent: usr.IsParent,
+			Avatar:   usr.Avatar,
+			Points:   usr.Points,
+			IsActive: usr.IsActive,
+		}
+	}
 
-func (s *Server) AddTaskToFeed(context.Context, *chorerewardsv1alpha1.AddTaskToFeedRequest) (*chorerewardsv1alpha1.AddTaskToFeedResponse, error) {
-	return nil, nil
+	return &chorerewardsv1alpha1.ListUsersResponse{
+		Users: u,
+	}, nil
 }
 
 func (s *Server) Login(ctx context.Context, req *chorerewardsv1alpha1.LoginRequest) (*chorerewardsv1alpha1.LoginResponse, error) {

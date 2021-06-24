@@ -9,7 +9,7 @@ server:
 db:
   host: localhost
   port: 5432
-  uesrname: chorerewards
+  username: chorerewards
   password: supersecretpassword
   name: chorerewards
 

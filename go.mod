@@ -3,9 +3,11 @@ module github.com/chorerewards/backend
 go 1.16
 
 require (
-	github.com/chorerewards/proto v0.0.12
+	github.com/chorerewards/proto v0.0.18
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/golang/protobuf v1.5.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.4.0
+	github.com/jackc/pgproto3/v2 v2.1.0 // indirect
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/lib/pq v1.4.0 // indirect
 	github.com/pkg/errors v0.9.1
