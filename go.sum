@@ -70,6 +70,14 @@ github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghf
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/chorerewards/proto v0.0.12 h1:fiX3Kuu2wmD2h9r9/ZCoP5gh8wDZgPjKr0WFbUZfjrI=
 github.com/chorerewards/proto v0.0.12/go.mod h1:KeAEuA0zt5eH0CriIozp3Cl/NhpcIyj336YTfK6NTOE=
+github.com/chorerewards/proto v0.0.15 h1:uYy81sZvhe3ycz8HsVH4WT9yxrCr/OF7fwjKWlIfcd8=
+github.com/chorerewards/proto v0.0.15/go.mod h1:KeAEuA0zt5eH0CriIozp3Cl/NhpcIyj336YTfK6NTOE=
+github.com/chorerewards/proto v0.0.16 h1:VWcDDevxiZfA7TeJz3SVGaPWkEZy3CugVohjQrdfxOI=
+github.com/chorerewards/proto v0.0.16/go.mod h1:KeAEuA0zt5eH0CriIozp3Cl/NhpcIyj336YTfK6NTOE=
+github.com/chorerewards/proto v0.0.17 h1:IbrlZTAAU2oB7INNzmCr3/rJuTq+6PpBS4EHEToiqok=
+github.com/chorerewards/proto v0.0.17/go.mod h1:KeAEuA0zt5eH0CriIozp3Cl/NhpcIyj336YTfK6NTOE=
+github.com/chorerewards/proto v0.0.18 h1:eJHSKNwsSCFVbDPk3V+iMwcbVqx75RKGz2QHcsyE2f4=
+github.com/chorerewards/proto v0.0.18/go.mod h1:KeAEuA0zt5eH0CriIozp3Cl/NhpcIyj336YTfK6NTOE=
 github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWRnGsAI=
 github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e/go.mod h1:nSuG5e5PlCu98SY8svDHJxuZscDgtXS6KTTbou5AhLI=
 github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMnBNeIyt5eFwwo7qiLfzFZmjNmxjkiQlU=
@@ -268,8 +276,9 @@ github.com/jackc/pgproto3/v2 v2.0.0-alpha1.0.20190609003834-432c2951c711/go.mod 
 github.com/jackc/pgproto3/v2 v2.0.0-rc3/go.mod h1:ryONWYqW6dqSg1Lw6vXNMXoBJhpzvWKnT95C46ckYeM=
 github.com/jackc/pgproto3/v2 v2.0.0-rc3.0.20190831210041-4c03ce451f29/go.mod h1:ryONWYqW6dqSg1Lw6vXNMXoBJhpzvWKnT95C46ckYeM=
 github.com/jackc/pgproto3/v2 v2.0.1/go.mod h1:WfJCnwN3HIg9Ish/j3sgWXnAfK8A9Y0bwXYU5xKaEdA=
-github.com/jackc/pgproto3/v2 v2.0.6 h1:b1105ZGEMFe7aCvrT1Cca3VoVb4ZFMaFJLJcg/3zD+8=
 github.com/jackc/pgproto3/v2 v2.0.6/go.mod h1:WfJCnwN3HIg9Ish/j3sgWXnAfK8A9Y0bwXYU5xKaEdA=
+github.com/jackc/pgproto3/v2 v2.1.0 h1:h2yg3kjIyAGSZKDijYn1/gXHlYLCwl9ZjEh2PU0yVxE=
+github.com/jackc/pgproto3/v2 v2.1.0/go.mod h1:WfJCnwN3HIg9Ish/j3sgWXnAfK8A9Y0bwXYU5xKaEdA=
 github.com/jackc/pgservicefile v0.0.0-20200307190119-3430c5407db8/go.mod h1:vsD4gTJCa9TptPL8sPkXrLZ+hDuNrZCnj29CQpr4X1E=
 github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b h1:C8S2+VttkHFdOOCXJe+YGfa4vHYwlt4Zx+IVXQ97jYg=
 github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b/go.mod h1:vsD4gTJCa9TptPL8sPkXrLZ+hDuNrZCnj29CQpr4X1E=
