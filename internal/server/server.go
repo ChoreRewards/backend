@@ -7,7 +7,11 @@ import (
 	"github.com/chorerewards/backend/internal/db"
 	chorerewardsv1alpha1 "github.com/chorerewards/proto/chorerewards/v1alpha1"
 	"github.com/pkg/errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
+
+var errNotFound *db.ErrNotFound
 
 type TokenManager interface {
 	CreateToken(username string) (string, error)
@@ -249,20 +253,25 @@ func (s *Server) ListUsers(ctx context.Context, req *chorerewardsv1alpha1.ListUs
 
 func (s *Server) Login(ctx context.Context, req *chorerewardsv1alpha1.LoginRequest) (*chorerewardsv1alpha1.LoginResponse, error) {
 	if req.GetUsername() == "" {
-		return nil, errors.New("Username cannot be empty")
+		return nil, status.Error(codes.Internal, "Username cannot be empty")
 	}
 
 	if req.GetPin() != 0 && req.GetPassword() != "" {
-		return nil, errors.New("Specify either Pin OR Password, not both")
+		return nil, status.Error(codes.Internal, "Specify either Pin OR Password, not both")
 	}
 
 	if req.GetPin() == 0 && req.GetPassword() == "" {
-		return nil, errors.New("Specify either Pin OR Password")
+		return nil, status.Error(codes.Internal, "Specify either Pin OR Password")
 	}
 
 	user, err := s.dbManager.GetUser(ctx, req.GetUsername())
 	if err != nil {
-		return nil, errors.Wrap(err, "Unable to get user")
+		// errors.As is the equivalent of a type assertion
+		// if e, ok := err.(*errNotFound); ok
+		if errors.As(err, &errNotFound) {
+			return nil, status.Error(codes.Internal, "incorrect username or password")
+		}
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	var authenticated bool
@@ -274,7 +283,7 @@ func (s *Server) Login(ctx context.Context, req *chorerewardsv1alpha1.LoginReque
 	}
 
 	if !authenticated {
-		return nil, errors.New("Authentication failed")
+		return nil, status.Error(codes.PermissionDenied, "incorrect username or password")
 	}
 
 	token, err := s.tokenManager.CreateToken(req.GetUsername())
