@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/golang/protobuf/ptypes/timestamp"
+	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -60,6 +61,16 @@ type User struct {
 	Password string
 	Pin      string
 	IsActive bool
+}
+
+var _ error = (*ErrNotFound)(nil) // ensure CustomError implements error
+
+type ErrNotFound struct {
+	message string
+}
+
+func (c *ErrNotFound) Error() string {
+	return c.message
 }
 
 func New(c Config) (*Manager, error) {
@@ -303,6 +314,9 @@ func (d *Manager) GetUser(ctx context.Context, username string) (User, error) {
 	err := d.pool.QueryRow(ctx, "SELECT id, username, email, is_admin, is_parent, avatar, points, password, pin, is_active FROM users WHERE username=$1", username).
 		Scan(&u.ID, &u.Username, &u.Email, &u.IsAdmin, &u.IsParent, &u.Avatar, &u.Points, &u.Password, &u.Pin, &u.IsActive)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return u, &ErrNotFound{message: "record not found"}
+		}
 		return u, errors.Wrap(err, "unable to get user")
 	}
 
