@@ -291,5 +291,9 @@ func (s *Server) Login(ctx context.Context, req *chorerewardsv1alpha1.LoginReque
 		return nil, errors.Wrap(err, "Unable to create Token")
 	}
 
-	return &chorerewardsv1alpha1.LoginResponse{Token: token}, nil
+	return &chorerewardsv1alpha1.LoginResponse{
+		Token:    token,
+		IsAdmin:  user.IsAdmin,
+		IsParent: user.IsParent,
+	}, nil
 }
