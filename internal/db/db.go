@@ -109,7 +109,7 @@ func (d *Manager) CreateCategory(ctx context.Context, category Category) (Catego
 
 	err := d.pool.QueryRow(
 		ctx,
-		"INSERT INTO categories(color, name, description) VALUES($1, $2, $3, $4) RETURNING id, color, name, description",
+		"INSERT INTO categories(color, name, description) VALUES($1, $2, $3) RETURNING id, color, name, description",
 		category.Color, category.Name, category.Description,
 	).Scan(&c.ID, &c.Color, &c.Name, &c.Description)
 	if err != nil {
