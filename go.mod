@@ -3,7 +3,7 @@ module github.com/chorerewards/backend
 go 1.16
 
 require (
-	github.com/chorerewards/proto v0.0.18
+	github.com/chorerewards/proto v0.0.19
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/golang/protobuf v1.5.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.4.0
